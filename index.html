@@ -1,40 +1,444 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Happy 30th Lovely</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="min-h-screen bg-gradient-to-br from-pink-200 via-yellow-100 to-rose-200 flex items-center justify-center p-6">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>🎁 Happy Birthday Surprise</title>
+    <style>
+      :root {
+        --bg: #0f172a;
+        --card: #111827;
+        --accent: #ef4444;
+        --accent-2: #22c55e;
+        --accent-3: #3b82f6;
+        --ribbon: #f59e0b;
+        --text: #e5e7eb;
+        --muted: #9ca3af;
+      }
 
-  <div class="bg-white/80 backdrop-blur-lg shadow-2xl rounded-3xl p-10 max-w-xl w-full text-center space-y-6 border-2 border-rose-300">
-    
-    <h1 class="text-5xl font-extrabold text-rose-700 drop-shadow-sm">
-      🎉 Happy 30th, Lovely! 😆
-    </h1>
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+          Helvetica, Arial;
+        background: radial-gradient(
+          1200px 800px at 70% -10%,
+          #1f2937 0%,
+          var(--bg) 60%
+        );
+        color: var(--text);
+        display: grid;
+        place-items: center;
+        overflow-x: hidden;
+      }
 
-    <p class="text-gray-700 text-lg italic">
-      Ayaw'g deny — tiguwang na gyud ka, ate 😌
-    </p>
+      .wrap {
+        text-align: center;
+      }
+      .hint {
+        color: var(--muted);
+        margin-top: 1rem;
+        font-size: 0.95rem;
+      }
 
-    <!-- Working funny middle-aged woman cartoon image -->
-    <div class="flex justify-center">
-      <img 
-        src="https://scontent.fcgy3-2.fna.fbcdn.net/v/t39.30808-6/508715900_23948644268105522_8126545853438075243_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeHZGyEC0LGLFAIfIO0_fUjtj7Y9hnkv6HmPtj2GeS_oebeDP-w8xZrjMBiwLj8NyFMa5EuTeEKZ00r9s_Xw-jA_&_nc_ohc=dj_mqmth12AQ7kNvwHkj0Ao&_nc_oc=AdkssljeNO0IbSr7mFjxH34byJXIESvVNAZhQBKhPl0OOaKDXlS67Q1kREIOCcOQRjg&_nc_zt=23&_nc_ht=scontent.fcgy3-2.fna&_nc_gid=9fvFGOn4HTJT6aFbR2kTGA&oh=00_AfOPij1eKFQR-KfJjANEI-AcmCJkukjM1zB0fPOsZ37mtQ&oe=686556EE" 
-        alt="Middle-aged woman cartoon" 
-        class="w-48 h-48 object-contain rounded-full border-4 border-yellow-300 shadow-md"
-      />
+      .stage {
+        position: relative;
+        width: 280px;
+        height: 280px;
+        perspective: 1200px;
+        margin-inline: auto;
+      }
+
+      .gift {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: end center;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .box {
+        position: relative;
+        width: 220px;
+        height: 160px;
+        background: linear-gradient(180deg, #1f2937, #0b1220);
+        border: 2px solid #111827;
+        border-radius: 16px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
+          inset 0 0 0 2px rgba(255, 255, 255, 0.02);
+      }
+
+      .box::before,
+      .box::after {
+        content: "";
+        position: absolute;
+        inset: 0 auto auto 50%;
+        transform: translateX(-50%);
+        width: 16px;
+        height: 100%;
+        background: var(--ribbon);
+        box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.25);
+      }
+      .box::after {
+        width: 100%;
+        height: 16px;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .lid {
+        position: absolute;
+        left: 50%;
+        top: 20%; /* 👈 sit flush on top of the box */
+        width: 240px;
+        height: 60px;
+        transform: translateX(-50%) rotateX(0); /* closed state */
+        transform-origin: 50% 100%;
+        background: linear-gradient(180deg, #0b1220, #1f2937);
+        border: 2px solid #111827;
+        border-radius: 18px 18px 10px 10px;
+        transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.1, 1.2),
+          box-shadow 0.6s ease;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      }
+
+      .gift.open .lid {
+        transform: translateX(-50%) rotateX(65deg) translateY(-8px);
+        box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6);
+      }
+
+      .bow {
+        position: absolute;
+        left: 50%;
+        top: 6px;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 22px;
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        justify-content: center;
+      }
+      .bow span {
+        display: inline-block;
+        width: 34px;
+        height: 22px;
+        background: var(--ribbon);
+        border-radius: 22px 22px 2px 22px;
+        box-shadow: inset 0 -6px 10px rgba(0, 0, 0, 0.25);
+      }
+      .bow span:last-child {
+        transform: scaleX(-1);
+      }
+      .bow i {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--ribbon);
+        box-shadow: inset 0 -4px 8px rgba(0, 0, 0, 0.25);
+      }
+
+      .message {
+        position: absolute;
+        left: 50%;
+        top: 45%;
+        transform: translate(-50%, -50%) scale(0.9);
+        width: 90%;
+        padding: 20px;
+        border-radius: 18px;
+        background: linear-gradient(180deg, #0b1220, #0a1020);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s;
+      }
+
+      .avatar {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 3px solid rgba(255, 255, 255, 0.15);
+        background: #0a0f1a;
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        color: var(--muted);
+        margin: 0 auto 14px;
+      }
+      .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      h1 {
+        margin: 0 0 4px;
+        font-size: 1.8rem;
+        letter-spacing: 0.4px;
+      }
+      .sub {
+        color: var(--muted);
+        margin: 0 0 10px;
+      }
+
+      .badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        margin-top: 10px;
+      }
+      .badge {
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        border: 1px dashed rgba(255, 255, 255, 0.2);
+      }
+
+      .actions {
+        margin-top: 14px;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+      }
+      button {
+        appearance: none;
+        border: none;
+        padding: 10px 14px;
+        border-radius: 12px;
+        cursor: pointer;
+        font-weight: 600;
+        background: #1f2937;
+        color: var(--text);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+        transition: transform 0.08s ease, box-shadow 0.2s ease,
+          background 0.2s ease;
+      }
+      button:hover {
+        background: #243042;
+      }
+      button:active {
+        transform: translateY(1px);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+      }
+
+      .gift.open .lid {
+        transform: translateX(-50%) rotateX(65deg) translateY(-8px);
+        box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6);
+      }
+      .gift.open .message {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      .confetti {
+        position: fixed;
+        top: -10px;
+        width: 10px;
+        height: 14px;
+        opacity: 0.95;
+        will-change: transform, opacity;
+        z-index: 50;
+      }
+      @keyframes confettiFall {
+        0% {
+          transform: translateY(-10vh) rotate(0deg);
+        }
+        100% {
+          transform: translateY(110vh) rotate(720deg);
+          opacity: 0.9;
+        }
+      }
+
+      .sparkle {
+        position: absolute;
+        inset: -80px;
+        pointer-events: none;
+        filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.4));
+      }
+      .sparkle i {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: white;
+        border-radius: 50%;
+        opacity: 0.6;
+        animation: float 6s linear infinite;
+      }
+      @keyframes float {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(-30px);
+          opacity: 0.2;
+        }
+      }
+
+      footer {
+        position: fixed;
+        bottom: 10px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="stage">
+        <div
+          class="gift"
+          id="gift"
+          aria-label="Open gift"
+          role="button"
+          tabindex="0"
+        >
+          <div class="sparkle" aria-hidden="true"></div>
+          <div class="lid">
+            <div class="bow"><span></span><i></i><span></span></div>
+          </div>
+          <div class="box"></div>
+          <div class="message" id="message">
+            <div class="avatar">
+              <img
+                alt="Avatar"
+                src="https://scontent.fcgy3-1.fna.fbcdn.net/v/t39.30808-6/476556058_1827181314486682_4193832053751762266_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeGtrjI3qU9H7Rsk94Wx631_siUrwdqaWBKyJSvB2ppYEl3WkAgzpR85vQI6IFCg9mFhd4uJAqnzh7NK99_7n0NZ&_nc_ohc=cZ8zJayoV4cQ7kNvwFKpqad&_nc_oc=AdlGIiuEkDIKSTK7yzeZuNUcTuBSODT0jXfmtq5u_UDJUh9TbYGSDs6StjTRMr4BodQ&_nc_zt=23&_nc_ht=scontent.fcgy3-1.fna&_nc_gid=DAIfUGCzHNXmcyzCL3Azgg&oh=00_AfWtSpW-ynwnOowBh_-NLcOL_HHDuPdZg4s3fjvFvMvr8A&oe=68AC4C96"
+              />
+            </div>
+            <h1>Happy Birthday! Jessa Mea🎉</h1>
+            <p class="sub">
+              Wishing you joy, health, and lots of cake today and always. 
+            </p>
+           
+            <div class="actions">
+              <button id="confettiBtn">Throw Confetti ✨</button>
+              <button id="resetBtn" style="display: none;">Reset 🔁</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="hint">
+        Click the gift (or press Enter) to open it. 
+      </p>
     </div>
 
-    <p class="text-sm text-gray-600">
-      Pag-andam na sa imong <span class="font-semibold">Omega Pain Killer</span> 😂
-    </p>
+    <footer>Made with HTML, CSS & JS — no libraries needed.</footer>
 
-    <p class="text-xs text-gray-500 mt-4 italic">
-      (Char lang, ate. Pero bitaw, welcome sa liga sa mga tiguwang 😆)
-    </p>
-  </div>
+    <script>
+      const gift = document.getElementById("gift");
+      const resetBtn = document.getElementById("resetBtn");
+      const confettiBtn = document.getElementById("confettiBtn");
 
-</body>
+      function openGift() {
+        if (!gift.classList.contains("open")) {
+          gift.classList.add("open");
+          burstConfetti(160);
+        }
+      }
+      gift.addEventListener("click", openGift);
+      gift.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openGift();
+        }
+      });
+
+      resetBtn.addEventListener("click", () => {
+        gift.classList.remove("open");
+        clearConfetti();
+      });
+
+      confettiBtn.addEventListener("click", () => burstConfetti(220));
+
+      const colors = [
+        "#ef4444",
+        "#22c55e",
+        "#3b82f6",
+        "#f59e0b",
+        "#eab308",
+        "#8b5cf6",
+        "#ec4899",
+      ];
+      function rand(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      function burstConfetti(count = 180) {
+        const body = document.body;
+        const vw = Math.max(
+          document.documentElement.clientWidth || 0,
+          window.innerWidth || 0
+        );
+        for (let i = 0; i < count; i++) {
+          const piece = document.createElement("div");
+          piece.className = "confetti";
+          const size = rand(6, 14);
+          piece.style.width = size + "px";
+          piece.style.height = rand(8, 18) + "px";
+          piece.style.left = rand(0, vw) + "px";
+          piece.style.background = colors[Math.floor(rand(0, colors.length))];
+          piece.style.transform = `rotate(${rand(0, 360)}deg)`;
+          const duration = rand(2.8, 5.2);
+          const delay = rand(0, 0.7);
+          piece.style.animation = `confettiFall ${duration}s linear ${delay}s forwards`;
+          piece.style.opacity = rand(0.75, 1);
+          body.appendChild(piece);
+          setTimeout(() => piece.remove(), (duration + delay) * 1000 + 100);
+        }
+      }
+
+      function clearConfetti() {
+        document.querySelectorAll(".confetti").forEach((el) => el.remove());
+      }
+
+      const sparkle = document.querySelector(".sparkle");
+      for (let i = 0; i < 30; i++) {
+        const dot = document.createElement("i");
+        dot.style.left = rand(0, 100) + "%";
+        dot.style.top = rand(0, 100) + "%";
+        dot.style.animationDelay = rand(0, 6) + "s";
+        dot.style.opacity = rand(0.2, 0.7);
+        sparkle.appendChild(dot);
+      }
+
+      const params = new URLSearchParams(location.search);
+      const avatar = params.get("avatar");
+      const name = params.get("name");
+      if (avatar) document.querySelector(".avatar img").src = avatar;
+      if (name) {
+        const h1 = document.querySelector("h1");
+        h1.innerHTML = `Happy Birthday, ${escapeHtml(name)}! 🎉`;
+        document.title = `🎁 Happy Birthday, ${name}!`;
+      }
+
+      function escapeHtml(str) {
+        return str.replace(
+          /[&<>'"]/g,
+          (t) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              "'": "&#39;",
+              '"': "&quot;",
+            }[t])
+        );
+      }
+    </script>
+  </body>
 </html>
